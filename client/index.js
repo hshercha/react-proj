@@ -1,10 +1,10 @@
 import {render} from "react-dom";
 import React from "react";
 
-import {DynamicList} from "./List";
+import { DynamicList } from "./List";
 
-const list = ['apple', 'banana']
-render(<DynamicList items={list}/>, document.getElementById('react-root'));
+const LIST = ['apple', 'banana']
+render(<DynamicList items={LIST}/>, document.getElementById('react-root'));
 
 /*
 - declare properties of list in the index file

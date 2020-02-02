@@ -14,19 +14,11 @@ class Item extends React.Component {
         const {name} = this.props;
         const itemWithStatus = this.state.isCompleted ? <strike>{name}</strike> : name; 
         return (
-        <span onClick={this.handleClick}>
+        <button onClick={this.handleClick}>
             {itemWithStatus}
-        </span>
+        </button>
         );
     }
-};
-
-const List = (props) => {
-  const { items } = props;
-
-  return (
-    <ul>{items.map((item, index) => <li key={`item_${index}`}><Item name={item}/></li>)} </ul>
-  );
 };
 
 export class DynamicList extends React.Component {
@@ -38,10 +30,11 @@ export class DynamicList extends React.Component {
 
     handleAddItem(e) {
         if (e.key == "Enter") {
-            const newItem = e.target.value.length > 0 ? e.target.value : null;
+            const event_target = e.target
+            const newItem = event_target.value.length > 0 ? event_target.value : null;
             if (newItem) {
-                e.target.value = ""
-                this.setState({items: [...this.state.items, newItem]});
+                event_target.value = ""
+                this.setState(prevState => ({ items: [...prevState.items, newItem] }));
             }
         }
         
@@ -49,7 +42,15 @@ export class DynamicList extends React.Component {
     render() {
         return (
             <div>
-            <List items={this.state.items}></List>
+            <ul>
+            {
+                this.state.items.map((item, index) =>
+                    <li key={`item_${index}`}>
+                    <Item name={item}/>
+                    </li>
+                )
+            }
+            </ul>
             <input type="text" onKeyDown={this.handleAddItem}></input>
             </div>
         );
@@ -59,10 +60,9 @@ export class DynamicList extends React.Component {
 Item.propTypes = {
     name: PropTypes.string.isRequired
 };
-
-List.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-};
 DynamicList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+};
+DynamicList.defaultProps = {
+    items: []
 };
