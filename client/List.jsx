@@ -21,7 +21,7 @@ class Item extends React.Component {
     }
 };
 
-export const List = (props) => {
+const List = (props) => {
   const { items } = props;
 
   return (
